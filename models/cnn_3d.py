@@ -3,8 +3,6 @@ import torch.nn as nn
 
 from torch.autograd import Variable
 
-# (bs, 128, 128, 100, 1)
-
 
 def conv_3d_block(in_channels, out_channels, kernels=3, padding=1, pool_kernels=2, pool_stride=2):
     return nn.Sequential(
@@ -38,9 +36,11 @@ class CNN(nn.Module):
     def __init__(self, in_channels, out_channels, depth=64, height=128, width=128):
         """
         Args:
-            in_channels (int): The number of inputs
+            in_channels (int): The number of input channels
             out_channels (int): The number of output classes
-            depth (int): The number of slices extracted from the CT Scan
+            depth (int): The number of slices extracted from the CT scan
+            height (int): The height of the CT scan inputs
+            width (int): The width of the CT scan inputs
         """
         super().__init__()
 
