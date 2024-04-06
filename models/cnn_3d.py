@@ -27,7 +27,7 @@ def double_conv_3d_block(
     )
 
 
-class CNN(nn.Module):
+class ConvNet3D(nn.Module):
     """
     Simple 3D Convolution Neural Network (CNN) with Batch Norm
     Modified from https://github.com/xmuyzz/3D-CNN-PyTorch/blob/master/models/C3DNet.py
@@ -67,26 +67,23 @@ class CNN(nn.Module):
 
     def forward(self, x):
         out = self.conv_block_1(x)
-        print(out.shape)
         out = self.conv_block_2(out)
-        print(out.shape)
         out = self.conv_block_3(out)
-        print(out.shape)
         out = self.conv_block_4(out)
-        print(out.shape)
         out = self.conv_block_5(out)
-        print(out.shape)
         out = out.view(out.size(0), -1)
         out = self.fc1(out)
         out = self.fc2(out)
         out = self.fc3(out)
-        return out
+        return out  # no need to apply sigmoid since we are using BCEwithLogitsLoss
 
 
 if __name__ == "__main__":
     batch_size, channels, depth, height, width = 32, 1, 64, 128, 128
     n_classes = 5
-    model = CNN(in_channels=channels, out_channels=n_classes, depth=depth, height=height, width=width)  # 5 classes
+    model = ConvNet3D(
+        in_channels=channels, out_channels=n_classes, depth=depth, height=height, width=width
+    )  # 5 classes
     print(model)
 
     input_var = Variable(torch.randn(batch_size, channels, depth, height, width))
