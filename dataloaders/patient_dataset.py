@@ -31,4 +31,6 @@ class PatientDataset(Dataset):
             tensor = self.transform(image)
             images[idx] = tensor
 
+        images = images.unsqueeze(0)
+
         return images, labels
