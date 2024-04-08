@@ -20,7 +20,7 @@ class PatientDataset(Dataset):
         row = self.labels.iloc[idx]
         pid = row['patient_id']
         labels = row.drop(['patient_id', 'file_path']).values
-        labels = labels.astype(np.float32)
+        labels = labels.astype(np.float64)
         labels_tensor = torch.tensor(labels)
 
         images = torch.zeros((64, 128, 128), dtype=torch.float64)
