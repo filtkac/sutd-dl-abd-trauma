@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
 
 import models
-from dataloaders.patient_dataset import PatientDataset
+from data.dataset import PatientDataset
 
 
 def train(args):
