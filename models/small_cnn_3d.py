@@ -45,13 +45,13 @@ class ConvNet3D(nn.Module):
         super().__init__()
 
         # (N, C, D, H, W) -> (N, 1, 64, 128, 128)
-        self.conv_block_1 = conv_3d_block(in_channels, 64)  # output: (N, 64, 32, 64, 64)
-        self.conv_block_2 = conv_3d_block(64, 128)  # output: (N, 128, 16, 32, 32)
-        self.conv_block_3 = double_conv_3d_block(128, 256)  # output: (N, 256, 8, 16, 16)
-        self.conv_block_4 = double_conv_3d_block(256, 512)  # output: (N, 512, 4, 8, 8)
-        self.conv_block_5 = double_conv_3d_block(512, 512)  # output: (N, 512, 2, 4, 4)
+        self.conv_block_1 = conv_3d_block(in_channels, 16)  # output: (N, 16, 32, 64, 64)
+        self.conv_block_2 = conv_3d_block(16, 32)  # output: (N, 128, 32, 32, 32)
+        self.conv_block_3 = double_conv_3d_block(32, 64)  # output: (N, 64, 8, 16, 16)
+        self.conv_block_4 = double_conv_3d_block(64, 128)  # output: (N, 128, 4, 8, 8)
+        self.conv_block_5 = double_conv_3d_block(128, 128)  # output: (N, 128, 2, 4, 4)
 
-        fc_inputs = 512 * (depth // 2**5) * (height // 2**5) * (width // 2**5)  # 5 max pooling layers -> 2^5
+        fc_inputs = 128 * (depth // 2**5) * (height // 2**5) * (width // 2**5)  # 5 max pooling layers -> 2^5
 
         self.fc1 = nn.Sequential(
             nn.Linear(fc_inputs, 4096),  # output: (N, 4096)
