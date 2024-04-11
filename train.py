@@ -51,7 +51,13 @@ def train(args):
             width=inputs.shape[3],
         )
     elif args.model == "unet":
-        model = ...
+        model = models.UNet(
+            in_channels=inputs.shape[0],
+            out_channels=labels.shape[0],
+            depth=inputs.shape[1],
+            height=inputs.shape[2],
+            width=inputs.shape[3],
+        )
     elif args.model == "vit":
         model = ...
     else:
