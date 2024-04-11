@@ -47,8 +47,8 @@ class ConvNet3D(nn.Module):
         # (N, C, D, H, W) -> (N, 1, 64, 128, 128)
         self.conv_block_1 = conv_3d_block(in_channels, 64)  # output: (N, 64, 32, 64, 64)
         self.conv_block_2 = conv_3d_block(64, 128)  # output: (N, 128, 16, 32, 32)
-        self.conv_block_3 = double_conv_3d_block(128, 256)  # output: (N, 64, 8, 16, 16)
-        self.conv_block_4 = double_conv_3d_block(256, 512)  # output: (N, 64, 4, 8, 8)
+        self.conv_block_3 = double_conv_3d_block(128, 256)  # output: (N, 256, 8, 16, 16)
+        self.conv_block_4 = double_conv_3d_block(256, 512)  # output: (N, 512, 4, 8, 8)
         self.conv_block_5 = double_conv_3d_block(512, 512)  # output: (N, 512, 2, 4, 4)
 
         fc_inputs = 512 * (depth // 2**5) * (height // 2**5) * (width // 2**5)  # 5 max pooling layers -> 2^5
