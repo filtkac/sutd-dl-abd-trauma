@@ -27,7 +27,7 @@ def double_conv_3d_block(
     )
 
 
-class ConvNet3D(nn.Module):
+class SmallConvNet3D(nn.Module):
     """
     Simple 3D Convolution Neural Network (CNN) with Batch Norm
     Modified from https://github.com/xmuyzz/3D-CNN-PyTorch/blob/master/models/C3DNet.py
