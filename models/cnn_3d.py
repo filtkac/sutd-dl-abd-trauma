@@ -45,13 +45,23 @@ class ConvNet3D(nn.Module):
         super().__init__()
 
         # (N, C, D, H, W) -> (N, 1, 64, 128, 128)
-        self.conv_block_1 = conv_3d_block(in_channels, 64)  # output: (N, 64, 32, 64, 64)
-        self.conv_block_2 = conv_3d_block(64, 128)  # output: (N, 128, 16, 32, 32)
-        self.conv_block_3 = double_conv_3d_block(128, 256)  # output: (N, 256, 8, 16, 16)
-        self.conv_block_4 = double_conv_3d_block(256, 512)  # output: (N, 512, 4, 8, 8)
-        self.conv_block_5 = double_conv_3d_block(512, 512)  # output: (N, 512, 2, 4, 4)
+        self.conv_block_1 = conv_3d_block(
+            in_channels, 64, pool_kernels=(2, 2, 2), pool_stride=(1, 2, 2)
+        )  # output: (N, 64, 63, 64, 64)
+        self.conv_block_2 = conv_3d_block(
+            64, 128, pool_kernels=(2, 2, 2), pool_stride=(2, 2, 2)
+        )  # output: (N, 128, 31, 32, 32)
+        self.conv_block_3 = double_conv_3d_block(
+            128, 256, pool_kernels=(2, 2, 2), pool_stride=(2, 2, 2)
+        )  # output: (N, 256, 15, 16, 16)
+        self.conv_block_4 = double_conv_3d_block(
+            256, 512, pool_kernels=(2, 2, 2), pool_stride=(2, 2, 2)
+        )  # output: (N, 512, 7, 8, 8)
+        self.conv_block_5 = double_conv_3d_block(
+            512, 512, pool_kernels=(1, 2, 2), pool_stride=(2, 2, 2), pool_padding=(0, 1, 1)
+        )  # output: (N, 512, 4, 5, 5)
 
-        fc_inputs = 512 * (depth // 2**5) * (height // 2**5) * (width // 2**5)  # 5 max pooling layers -> 2^5
+        fc_inputs = 512 * 4 * 5 * 5
 
         self.fc1 = nn.Sequential(
             nn.Linear(fc_inputs, 4096),  # output: (N, 4096)
@@ -79,7 +89,7 @@ class ConvNet3D(nn.Module):
 
 
 if __name__ == "__main__":
-    batch_size, channels, depth, height, width = 1, 1, 100, 128, 128
+    batch_size, channels, depth, height, width = 1, 1, 64, 128, 128
     n_classes = 5
     model = ConvNet3D(
         in_channels=channels, out_channels=n_classes, depth=depth, height=height, width=width

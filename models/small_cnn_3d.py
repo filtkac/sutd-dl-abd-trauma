@@ -79,9 +79,9 @@ class SmallConvNet3D(nn.Module):
 
 
 if __name__ == "__main__":
-    batch_size, channels, depth, height, width = 1, 1, 100, 128, 128
+    batch_size, channels, depth, height, width = 1, 1, 64, 128, 128
     n_classes = 5
-    model = ConvNet3D(
+    model = SmallConvNet3D(
         in_channels=channels, out_channels=n_classes, depth=depth, height=height, width=width
     )  # 5 classes
     print(model)
