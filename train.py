@@ -74,7 +74,6 @@ def train(args):
             # zero gradients for every batch
             optimizer.zero_grad()
             outputs = model(inputs.float())
-            print(outputs)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
