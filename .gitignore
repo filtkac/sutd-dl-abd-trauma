@@ -248,3 +248,4 @@ cython_debug/
 
 # additional ignores
 dataset/
+checkpoints/
