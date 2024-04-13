@@ -2,6 +2,28 @@ import torch
 from huggingface_hub import HfApi, HfFolder, Repository
 
 
+# ----- Data Util Functions ----- #
+
+
+def class_weights(data):
+    """Creating class weights for loss function to address class imbalances"""
+
+    weights = {
+        "bowel": data["bowel"].value_counts()[0] / data["bowel"].value_counts()[1],
+        "extravastion": data["extravastion"].value_counts()[0] / data["extravastion"].value_counts()[1],
+        "kidney": data["kidney"].value_counts()[0] / data["kidney"].value_counts()[1],
+        "liver": data["liver"].value_counts()[0] / data["liver"].value_counts()[1],
+        "spleen": data["spleen"].value_counts()[0] / data["spleen"].value_counts()[1],
+    }
+
+    total = sum(weights.values())
+    normalized = {key: round(value / total, 5) for key, value in weights.items()}
+    return normalized
+
+
+# ----- Model Util Functions ----- #
+
+
 def save_model(model, path):
     torch.save(model.state_dict(), path)
     print(f"Model saved to {path}")
